@@ -1,0 +1,58 @@
+{
+  "kind": "spec_vs_diff_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T02:52:18.094Z",
+  "summary": "REQ-5 appears largely implemented in CatalogPage via a single all-vehicles fetch, client-side filtering, and pagination/infinite scroll over the filtered in-memory list. REQ-7 is partially evidenced in ProgressiveImage via lossless WebP URL generation, WebP support detection, and fallback for priority images; full fallback behavior for non-priority images is not visible due to truncation. REQ-6 (deriving filter dropdown options from the already-fetched list and avoiding redundant fetches) is asserted in a textual summary but not clearly evidenced in the shown CatalogPage code snippet.",
+  "missing_requirements": [
+    {
+      "id": "REQ-5",
+      "requirement": "If the initial vehicle list fails to load, the catalog shows an error state and offers a retry that re-fetches the full vehicle list (not a filtered endpoint).",
+      "reason": "CatalogPage destructures `error` and `refetch`, and imports Alert UI, but the provided diff snippet is truncated before any render logic that shows an error state and retry action; cannot confirm implementation from the available evidence.",
+      "evidence": [
+        "frontend/src/pages/CatalogPage.tsx (truncated)"
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "requirement": "Do not make extra full-vehicle fetches solely to compute available brands/models/colors; derive filter dropdown options from the already-fetched full vehicle list and keep them correct when vehicles change via query invalidation.",
+      "reason": "The shown CatalogPage snippet includes client-side filtering but does not show any code for deriving dropdown options (brands/models/colors) from `allVehicles`, nor does it show removal of any separate queries used to populate filter UI. A separate textual file summary claims this behavior, but the actual code evidence is not visible in the truncated snippet.",
+      "evidence": [
+        "frontend/src/pages/CatalogPage.tsx (truncated)",
+        "frontend-file-summaries.txt (CatalogPage description)"
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "requirement": "If the WebP request fails for any reason, the frontend transparently falls back to the original image URL (applies to the shared progressive image component).",
+      "reason": "Fallback behavior is clearly implemented for the `priority` branch (onerror loads original `src`). For the non-priority path, the code is truncated right before the full-image load/error handling, so it is not possible to confirm the same fallback behavior is implemented for typical (non-priority) usage such as catalog card images.",
+      "evidence": [
+        "frontend/src/components/ProgressiveImage.tsx (truncated)"
+      ]
+    }
+  ],
+  "hallucinated_features": [
+    {
+      "description": "Added/expanded ProgressiveImage features beyond the WebP-lossless requirement (e.g., `priority`, `prefetch`, intersection-observer lazy loading behavior controls, and preview/blur URL generation parameters like `preview=true&w=40&q=20`).",
+      "reason": "REQ-7 only asks for lossless WebP delivery with fallback and safe behavior when WebP is unsupported; it does not request new priority/prefetch APIs or preview URL generation logic.",
+      "evidence": [
+        "frontend/src/components/ProgressiveImage.tsx (truncated)"
+      ]
+    },
+    {
+      "description": "Enhanced caching/retry/backoff strategies for non-catalog queries (e.g., currency/settings) and broad 'enhanced caching' changes in hooks.",
+      "reason": "BuildRequest focuses on catalog filtering behavior and lossless WebP image delivery; generalized query caching enhancements are not requested explicitly.",
+      "evidence": [
+        "frontend/src/hooks/useQueries.ts (truncated)",
+        "frontend-file-summaries.txt (useQueries description)"
+      ]
+    }
+  ],
+  "confidence": 0.62,
+  "changed_files": [
+    "frontend-file-summaries.txt",
+    "frontend/src/components/ProgressiveImage.tsx",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/CatalogPage.tsx",
+    "project_state.json"
+  ]
+}

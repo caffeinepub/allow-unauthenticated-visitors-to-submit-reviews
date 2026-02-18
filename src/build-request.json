@@ -1,0 +1,75 @@
+{
+  "kind": "build_request",
+  "title": "Speed up catalog filtering (single fetch + client-side filtering) and request lossless WebP",
+  "projectName": "Car Catalog",
+  "priority": "normal",
+  "requirements": [
+    {
+      "id": "REQ-5",
+      "text": "Update the Catalog page so that the full vehicle list is fetched once when entering /catalog, and changing any catalog filters (brand/model/color) does not trigger any additional backend fetch for vehicles; filters must be applied locally on the already-loaded list to make filtering feel instant.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "1.  при переходе в каталог все автомобили загружались быстро, а фильтр не загружал бы их повторно, а просто фильтровал, чтобы это происходило быстро."
+        ]
+      },
+      "acceptanceCriteria": [
+        "When opening /catalog, the app fetches the vehicle list once (via the existing all-vehicles query) and renders results.",
+        "Changing brand/model/color does not call the backend filtered-vehicles query; the displayed list updates using only client-side filtering.",
+        "Pagination/infinite-scroll behavior still works on the filtered in-memory list (i.e., it paginates the filtered results, not the full list).",
+        "If the initial vehicle list fails to load, the catalog shows an error state and offers a retry that re-fetches the full vehicle list (not a filtered endpoint)."
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "text": "Reduce redundant catalog data fetching so initial catalog load is faster: ensure the catalog UI does not perform multiple separate vehicle fetches for filtering UI (brands/models/colors) when the same information can be derived from the already-fetched full vehicle list.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "при переходе в каталог все автомобили загружались быстро"
+        ]
+      },
+      "acceptanceCriteria": [
+        "On /catalog, the app does not make extra full-vehicle fetches solely to compute available brands/models/colors if the full vehicle list has already been loaded.",
+        "The filter dropdown options remain correct and update appropriately when vehicles change (e.g., after admin adds/edits/deletes a vehicle and queries are invalidated)."
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "text": "Serve vehicle images as WebP using lossless compression (no visible quality loss), with safe fallback to the original format when WebP is not supported or when the WebP variant cannot be loaded.",
+      "target": "frontend",
+      "source": {
+        "messageIds": [
+          "msg-1"
+        ],
+        "quotes": [
+          "2. сжатие Webp без потери качества."
+        ]
+      },
+      "acceptanceCriteria": [
+        "For browsers that support WebP, image requests initiated by the frontend use a WebP URL variant that explicitly requests lossless output.",
+        "If the WebP request fails for any reason, the frontend transparently falls back to the original image URL.",
+        "In browsers without WebP support, the frontend uses the original image URL without attempting WebP.",
+        "This behavior applies at minimum to catalog card images and any other usage of the shared progressive image component."
+      ]
+    }
+  ],
+  "constraints": [
+    "Backend must remain a single Motoko actor; do not introduce additional backend services.",
+    "Do not modify files under frontend/src/components/ui or the immutable hook files listed in SYSTEM_CONTEXT."
+  ],
+  "nonGoals": [
+    "Do not introduce server-side search, server-side pagination, or new database/storage systems.",
+    "Do not change the vehicle schema or add new admin workflows beyond what is required for faster catalog filtering and lossless WebP delivery."
+  ],
+  "imageRequirements": {
+    "required": [],
+    "edits": []
+  }
+}

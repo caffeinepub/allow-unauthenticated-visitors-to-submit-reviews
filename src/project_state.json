@@ -1,0 +1,103 @@
+{
+  "schemaVersion": "1.0.0",
+  "projectStateVersion": 7,
+  "summary": "Website for car listings with photos, filters, and user reviews, with improved catalog performance via one-time loading + fast client-side filtering and optimized media (WebP).",
+  "architectural_notes": [],
+  "known_issues": [
+    "In the catalog car brand filter, the brand list is not scrollable on small screens, preventing selection of brands near the bottom."
+  ],
+  "isFixRequest": false,
+  "existing_features": [
+    {
+      "id": "feature-remove-the-login-requirement-for-submitting-a-review-so-that-any-site-visitor-including-anonymous-users-can-submit-a-review-from-the-review-form-modal",
+      "title": "Remove the login requirement for submitting a review so that any site visitor (including anonymous users) can submit a review from the review form modal.",
+      "reqIds": [
+        "REQ-1"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-review-submission-ui-validation-and-feedback-to-reflect-the-new-anonymous-flow-keep-required-field-validation-but-do-not-mention-signing-in",
+      "title": "Update the review submission UI validation and feedback to reflect the new anonymous flow (keep required field validation, but do not mention signing in).",
+      "reqIds": [
+        "REQ-2"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-add-vertical-scrolling-to-the-car-brand-dropdown-list-in-the-catalog-page-filter-so-that-on-small-screens-users-can-scroll-and-select-brands-that-appear-at-the-bottom-of-a-long-list",
+      "title": "Add vertical scrolling to the car brand dropdown list in the Catalog page filter so that on small screens users can scroll and select brands that appear at the bottom of a long list.",
+      "reqIds": [
+        "REQ-4"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-update-the-catalog-page-so-that-the-full-vehicle-list-is-fetched-once-when-entering-catalog-and-changing-any-catalog-filters-brand-model-color-does-not-trigger-any-additional-backend-fetch-for-vehicles-filters-must-be-applied-locally-on-the-already-loaded-list-to-make-filtering-feel-instant",
+      "title": "Update the Catalog page so that the full vehicle list is fetched once when entering /catalog, and changing any catalog filters (brand/model/color) does not trigger any additional backend fetch for vehicles; filters must be applied locally on the already-loaded list to make filtering feel instant.",
+      "reqIds": [
+        "REQ-5"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-reduce-redundant-catalog-data-fetching-so-initial-catalog-load-is-faster-ensure-the-catalog-ui-does-not-perform-multiple-separate-vehicle-fetches-for-filtering-ui-brands-models-colors-when-the-same-information-can-be-derived-from-the-already-fetched-full-vehicle-list",
+      "title": "Reduce redundant catalog data fetching so initial catalog load is faster: ensure the catalog UI does not perform multiple separate vehicle fetches for filtering UI (brands/models/colors) when the same information can be derived from the already-fetched full vehicle list.",
+      "reqIds": [
+        "REQ-6"
+      ],
+      "version": 1
+    },
+    {
+      "id": "feature-serve-vehicle-images-as-webp-using-lossless-compression-no-visible-quality-loss-with-safe-fallback-to-the-original-format-when-webp-is-not-supported-or-when-the-webp-variant-cannot-be-loaded",
+      "title": "Serve vehicle images as WebP using lossless compression (no visible quality loss), with safe fallback to the original format when WebP is not supported or when the WebP variant cannot be loaded.",
+      "reqIds": [
+        "REQ-7"
+      ],
+      "version": 1
+    }
+  ],
+  "new_feature_requests": [
+    {
+      "id": "AR-1",
+      "summary": "Allow any site visitor (unauthenticated users) to submit a review; remove the requirement to be authorized to leave a review.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-4",
+      "summary": "Ensure the backend review submission endpoint remains publicly callable (no authorization checks) and that the anonymous frontend flow calls the same method successfully.",
+      "reqIds": [
+        "REQ-3"
+      ],
+      "status": "pending"
+    },
+    {
+      "id": "AR-5",
+      "summary": "Add scrolling (scrollbar) to the car brand list in the catalog filter so users on small screens can access brands at the bottom of the list.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-6",
+      "summary": "In the catalog, load the full car list once on initial page entry and perform subsequent filtering client-side without re-fetching cars, so filters apply instantly.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-7",
+      "summary": "Improve initial catalog load speed (data + media), including caching/prefetching strategies where appropriate.",
+      "reqIds": [],
+      "status": "pending"
+    },
+    {
+      "id": "AR-8",
+      "summary": "Convert/serve car images as WebP without quality loss (lossless) to reduce file size and speed up media loading.",
+      "reqIds": [],
+      "status": "pending"
+    }
+  ],
+  "projectName": "Allow unauthenticated visitors to submit reviews",
+  "clarification_mode": "instant",
+  "clarification_rounds": 0
+}

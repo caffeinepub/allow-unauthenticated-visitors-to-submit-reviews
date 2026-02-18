@@ -1,0 +1,61 @@
+{
+  "kind": "implementation_plan",
+  "version": "1.0",
+  "title": "Instant catalog filtering (single fetch) + lossless WebP with fallback",
+  "requirements": [
+    {
+      "id": "REQ-5",
+      "summary": "Fetch full vehicle list once on /catalog and apply brand/model/color filters locally with pagination on the filtered in-memory list, including error + retry.",
+      "acceptanceCriteria": [
+        "When opening /catalog, the app fetches the vehicle list once (via the existing all-vehicles query) and renders results.",
+        "Changing brand/model/color does not call the backend filtered-vehicles query; the displayed list updates using only client-side filtering.",
+        "Pagination/infinite-scroll behavior still works on the filtered in-memory list (i.e., it paginates the filtered results, not the full list).",
+        "If the initial vehicle list fails to load, the catalog shows an error state and offers a retry that re-fetches the full vehicle list (not a filtered endpoint)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CatalogPage.tsx",
+          "operation": "modify",
+          "description": "Refactor CatalogPage to use only the full list query (useGetAllVehicles) when entering /catalog, compute filteredVehicles via client-side filtering of the already-loaded list, and paginate/infinite-scroll over the filtered results; update error UI retry to call the full-list refetch (not filtered fetching)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-6",
+      "summary": "Eliminate redundant fetches for filter dropdown options by deriving brands/models/colors from the already-fetched vehicle list and keeping options in sync after vehicle mutations invalidate queries.",
+      "acceptanceCriteria": [
+        "On /catalog, the app does not make extra full-vehicle fetches solely to compute available brands/models/colors if the full vehicle list has already been loaded.",
+        "The filter dropdown options remain correct and update appropriately when vehicles change (e.g., after admin adds/edits/deletes a vehicle and queries are invalidated)."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/pages/CatalogPage.tsx",
+          "operation": "modify",
+          "description": "Remove dependency on separate filter-fetching queries for dropdown data; derive available brands/models/colors from the already-loaded vehicles list (including model options scoped by selected brand), so dropdown options update automatically when the vehicles query updates."
+        },
+        {
+          "path": "frontend/src/hooks/useQueries.ts",
+          "operation": "modify",
+          "description": "Update (or de-emphasize) filter-related hooks to avoid redundant vehicle fetches for filter UI: ensure any active-filters computation is derived from the cached full vehicles list (and does not trigger extra getAllVehicles calls when vehicles are already present)."
+        }
+      ]
+    },
+    {
+      "id": "REQ-7",
+      "summary": "Request vehicle images as explicitly lossless WebP when supported, with transparent fallback to the original URL on failure or when WebP is unsupported (applies to ProgressiveImage usage including catalog cards).",
+      "acceptanceCriteria": [
+        "For browsers that support WebP, image requests initiated by the frontend use a WebP URL variant that explicitly requests lossless output.",
+        "If the WebP request fails for any reason, the frontend transparently falls back to the original image URL.",
+        "In browsers without WebP support, the frontend uses the original image URL without attempting WebP.",
+        "This behavior applies at minimum to catalog card images and any other usage of the shared progressive image component."
+      ],
+      "file_operations": [
+        {
+          "path": "frontend/src/components/ProgressiveImage.tsx",
+          "operation": "modify",
+          "description": "Adjust WebP URL generation to explicitly request lossless WebP (e.g., add a lossless flag in the WebP query variant), keep/strengthen WebP support detection, and preserve existing fallback-to-original behavior on WebP load errors for both priority and non-priority paths."
+        }
+      ]
+    }
+  ]
+}

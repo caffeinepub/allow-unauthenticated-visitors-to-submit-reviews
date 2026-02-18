@@ -1,0 +1,65 @@
+{
+  "kind": "coverage_report",
+  "version": "1.0",
+  "generatedAt": "2026-02-18T02:52:18.097Z",
+  "sources": {
+    "buildRequest": true,
+    "implementationPlan": true
+  },
+  "requirements": {
+    "total": 3,
+    "implemented": 3,
+    "items": [
+      {
+        "id": "REQ-5",
+        "summary": "Update the Catalog page so that the full vehicle list is fetched once when entering /catalog, and changing any catalog filters (brand/model/color) does not trigger any additional backend fetch for vehicles; filters must be applied locally on the already-loaded list to make filtering feel instant.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CatalogPage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CatalogPage.tsx"
+        ]
+      },
+      {
+        "id": "REQ-6",
+        "summary": "Reduce redundant catalog data fetching so initial catalog load is faster: ensure the catalog UI does not perform multiple separate vehicle fetches for filtering UI (brands/models/colors) when the same information can be derived from the already-fetched full vehicle list.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/pages/CatalogPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ],
+        "matchedFiles": [
+          "frontend/src/pages/CatalogPage.tsx",
+          "frontend/src/hooks/useQueries.ts"
+        ]
+      },
+      {
+        "id": "REQ-7",
+        "summary": "Serve vehicle images as WebP using lossless compression (no visible quality loss), with safe fallback to the original format when WebP is not supported or when the WebP variant cannot be loaded.",
+        "status": "implemented",
+        "plannedFiles": [
+          "frontend/src/components/ProgressiveImage.tsx"
+        ],
+        "matchedFiles": [
+          "frontend/src/components/ProgressiveImage.tsx"
+        ]
+      }
+    ]
+  },
+  "changedFiles": [
+    "build-request.json",
+    "caffeine.lock.json",
+    "feature_evidence.json",
+    "frontend-file-summaries.txt",
+    "frontend-implementation-plan.json",
+    "frontend/src/components/ProgressiveImage.tsx",
+    "frontend/src/config.ts",
+    "frontend/src/hooks/useQueries.ts",
+    "frontend/src/pages/CatalogPage.tsx",
+    "project_state.json",
+    "scratch/component-selection.json",
+    "spec.md",
+    "spec_vs_diff_report.json"
+  ]
+}

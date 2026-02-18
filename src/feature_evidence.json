@@ -1,0 +1,66 @@
+{
+  "kind": "feature_evidence_report",
+  "features": [
+    {
+      "featureId": "feature-update-the-catalog-page-so-that-the-full-vehicle-list-is-fetched-once-when-entering-catalog-and-changing-any-catalog-filters-brand-model-color-does-not-trigger-any-additional-backend-fetch-for-vehicles-filters-must-be-applied-locally-on-the-already-loaded-list-to-make-filtering-feel-instant",
+      "featureTitle": "Update the Catalog page so that the full vehicle list is fetched once when entering /catalog, and changing any catalog filters (brand/model/color) does not trigger any additional backend fetch for vehicles; filters must be applied locally on the already-loaded list to make filtering feel instant.",
+      "files": [
+        "frontend/src/pages/CatalogPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-5"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-reduce-redundant-catalog-data-fetching-so-initial-catalog-load-is-faster-ensure-the-catalog-ui-does-not-perform-multiple-separate-vehicle-fetches-for-filtering-ui-brands-models-colors-when-the-same-information-can-be-derived-from-the-already-fetched-full-vehicle-list",
+      "featureTitle": "Reduce redundant catalog data fetching so initial catalog load is faster: ensure the catalog UI does not perform multiple separate vehicle fetches for filtering UI (brands/models/colors) when the same information can be derived from the already-fetched full vehicle list.",
+      "files": [
+        "frontend/src/hooks/useQueries.ts",
+        "frontend/src/pages/CatalogPage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-6"
+      ],
+      "confidence": "high"
+    },
+    {
+      "featureId": "feature-serve-vehicle-images-as-webp-using-lossless-compression-no-visible-quality-loss-with-safe-fallback-to-the-original-format-when-webp-is-not-supported-or-when-the-webp-variant-cannot-be-loaded",
+      "featureTitle": "Serve vehicle images as WebP using lossless compression (no visible quality loss), with safe fallback to the original format when WebP is not supported or when the WebP variant cannot be loaded.",
+      "files": [
+        "frontend/src/components/ProgressiveImage.tsx"
+      ],
+      "components": [
+        "authorization@4.0.0",
+        "blob-storage@4.0.0",
+        "core-infrastructure@1.0.2",
+        "shadcn-ui@1.0.0",
+        "build-template-react@1.0.0",
+        "initial-app@1.0.0",
+        "github-export-icp-cli@1.0.0"
+      ],
+      "testIds": [
+        "REQ-7"
+      ],
+      "confidence": "high"
+    }
+  ]
+}
